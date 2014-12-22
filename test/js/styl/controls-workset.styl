@@ -1,0 +1,57 @@
+.control {
+	position: relative;
+	display: block;
+
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="number"],
+	select,
+	textarea {
+		outline: none;
+		box-sizing: border-box;
+		width: 100%;
+	}
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"] {
+		border: 1px solid;
+		border-radius: 1px;
+		padding: 0 2px;
+		height: 21px;
+		line-height: @height;
+	}
+
+	&-textInput & {
+		&--postfix {
+			display: none;
+			absolute: top 100% left right;
+			margin-top: 1px;
+			padding: 2px 0;
+			font-size: 1.1rem;
+			text-align: center;
+		}
+	}
+
+	&-numericStepper,
+	&-textInput {
+		width: 95px;
+	}
+
+	&-numericStepperShort {
+		width: 89px;
+	}
+
+	&-error&-textInput & {
+		&--postfix {
+			display: block;
+		}
+	}
+
+	&-noLabel&-checkBox {
+		vertical-align: -8px;
+		margin-right: -8px;
+	}
+}

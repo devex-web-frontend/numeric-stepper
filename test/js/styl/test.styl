@@ -1,0 +1,27 @@
+@import "nib";
+
+global-reset();
+reset-html5();
+
+body {
+	background: black;
+	font-family: arial, helvetica, sans-serif;
+	padding: 50px;
+}
+
+.withAnimation .corrected {
+	animation: corrected 500ms 0s;
+}
+
+@keyframes corrected {
+	0% {
+		background-color: #8B000F;
+	}
+	100% {
+		background-color: #202020;
+	}
+}
+@import "controls-workset.styl"
+@import "numeric-stepper-workset.styl"
+@import "controls-color.styl"
+@import "numeric-stepper-color.styl"

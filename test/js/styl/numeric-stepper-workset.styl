@@ -1,0 +1,35 @@
+.numericStepper {
+	position: relative;
+	display: inline-block;
+
+	&--input {
+		display: block;
+
+		input[type="text"] {
+			min-width: 88px;
+			padding-right: 40px;
+		}
+	}
+
+	&--control {
+		box-sizing: border-box;
+		absolute: top 2px;
+		width: 17px;
+		height: @width;
+		padding: 0;
+		border: 1px solid;
+
+		&-down {
+			right: 21px;
+		}
+
+		&-up {
+			right: 2px;
+		}
+
+		span {
+			display: block;
+			line-height: 1;
+		}
+	}
+}

@@ -1,0 +1,62 @@
+.control {
+	input[type="text"],
+	input[type="password"],
+	input[type="email"] {
+		border-color: #3b3b3b;
+		background-color: #1f1f1f;
+		box-shadow: 0 1px 0 rgba(#000, .7) inset;
+		color: #666666;
+
+		&:focus {
+			color: #fff;
+		}
+	}
+
+	&-textInput&-error {
+		input[type="text"],
+		input[type="password"],
+		input[type="email"] {
+			color: #d92400;
+			border-color: #8d1b02;
+			background-color: #240c00;
+			box-shadow: 0 0 5px rgba(#d92400, .25);
+		}
+	}
+
+	&-error {
+		.checkBox {
+			&--label {
+				color: #991a00;
+
+				label {
+					&:before,
+					&:hover:before {
+						background-position: 0 -92px;
+					}
+				}
+			}
+		}
+
+		.numericStepper {
+			input[type="text"],
+			input[type="password"],
+			input[type="email"] {
+				background-color: #8b1b1b;
+				box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) inset
+			}
+		}
+	}
+
+	&--postfix {
+		color: #fff;
+		background-color: #9f1a00;
+	}
+
+	&-stopLossPrice {
+		color: #e33917;
+	}
+
+	&-takeProfitPrice {
+		color: #79ad34;
+	}
+}

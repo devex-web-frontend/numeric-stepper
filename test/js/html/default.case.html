@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Numeric Stepper test</title>
+
+	<script src="../../../lib/es5-shim/es5-shim.js"></script>
+	<script src="../../../lib/classlist/classList.js"></script>
+	<script src="../../../lib/dxjs/src/dx.core.js"></script>
+	<script src="../../../lib/dxjs/src/dx.dom.js"></script>
+	<script src="../../../lib/dxjs/src/dx.event.js"></script>
+	<script src="../../../src/js/numeric-stepper.js"></script>
+	<link rel="stylesheet" href="../css/test.css"/>
+	<script type="text/javascript">
+		window.onload = function() {
+			Array.prototype.forEach.call(document.querySelectorAll('[data-numericstepper]'), function(input) {
+				new NumericStepper(input);
+			})
+		}
+	</script>
+</head>
+<body>
+<div class="control control-numericStepper">
+	<span class="control--wrap">
+		<input data-numericstepper type="text" id="default" data-ng-model="default" max="60" min="5" step="1" data-precision="1">
+	</span>
+</div>
+</body>
+</html>
