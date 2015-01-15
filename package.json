@@ -1,4 +1,4 @@
-gu{
+{
   "name": "numeric-stepper",
   "version": "2.1.0",
   "license": "MPL-2.0",
@@ -21,7 +21,9 @@ gu{
     "karma-jasmine": "0.1.5",
     "karma-ng-scenario": "0.1.0",
     "karma-phantomjs-launcher": "0.1.4",
-    "latest": "0.1.2"
+    "latest": "0.1.2",
+    "grunt-jsdoc": "^0.5.7",
+    "grunt-jsdoc-to-markdown": "^0.4.2"
   },
   "scripts": {
     "test": "grunt test --prod",

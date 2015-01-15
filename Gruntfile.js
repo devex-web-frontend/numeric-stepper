@@ -67,6 +67,20 @@ module.exports = function(grunt) {
 				tasks: ['stylus:compile']
 			}
 		},
+		jsdoc : {
+			dist : {
+				src: ['src/js/*.js'],
+				options: {
+					destination: 'doc'
+				}
+			}
+		},
+		jsdoc2md: {
+			oneOutputFile: {
+				src: "src/js/numeric-stepper.js",
+				dest: "doc/documentation.md"
+			}
+		},
 		jscs: {
 			options: {
 				config: '.jscsrc'
@@ -83,7 +97,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-interactive-shell');
 	grunt.loadNpmTasks('grunt-jscs-checker');
 	grunt.loadNpmTasks('grunt-karma');
-
+	grunt.loadNpmTasks("grunt-jsdoc-to-markdown");
+	grunt.loadNpmTasks('grunt-jsdoc');
 
 	grunt.registerTask('check_style', ['jscs', 'jshint']);
 	grunt.registerTask('install', ['clean:dependencies', 'shell:bower_install']);
@@ -92,5 +107,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('test_ui', ['css', 'connect:test', 'karma:ui']);
 	grunt.registerTask('test', ['check_style', 'test_unit', 'test_ui']);
 	grunt.registerTask('build', ['test']);
+	grunt.registerTask("doc", "jsdoc2md");
 	grunt.registerTask('default', ['install', 'build']);
 };

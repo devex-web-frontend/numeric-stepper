@@ -1,5 +1,10 @@
 /**
+ * @copyright Devexperts
+ *
  * @requires DX
+ * @requires DX.Dom
+ * @requires DX.Event
+ * @namespace
  */
 var NumericStepper = (function(DX, window, document, undefined) {
 	'use strict';
@@ -105,11 +110,19 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			setValue(elements, value);
 		}
 	}
-
+	/**
+	 * Numericstepper value has changed
+	 *
+	 * @event numericstepper:changed
+	 */
 	function fireChangeEvent(input) {
 		event.trigger(input, NumericStepper.E_CHANGED);
 	}
-
+	/**
+	 * Numericstepper value was corrected
+	 *
+	 * @event numericstepper:corrected
+	 */
 	function notifyOfCorrection(input) {
 		var notificationTimeOut;
 
@@ -130,7 +143,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 
 	/**
-	 * @constructor
+	 * @constructor NumericStepper
 	 * @param {HTMLInputElement} input
 	 */
 	return function NumericStepper(input) {
@@ -163,7 +176,15 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			input.addEventListener(NumericStepper.E_UPDATE_CONSTRAINTS, updateConstraints);
 			input.addEventListener(NumericStepper.E_CHANGE_VALUE, normalizeInput);
 		}
-
+		/**
+		 * Updates constraints according to element attributes
+		 * @method updateConstraints
+		 */
+		/**
+		 * Numericstepper constraints attributes were changed
+		 *
+		 * @event numericstepper:updateconstraints
+		 */
 		function updateConstraints() {
 			var precisionValue = parseFloat(input.getAttribute('data-precision')),
 				minValue = parseFloat(input.getAttribute('min')),
@@ -178,13 +199,20 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		function isDisabled() {
 			return input.disabled;
 		}
-
+		/**
+		 * Numericstepper value was changed outside
+		 *
+		 * @event numericstepper:changevalue
+		 */
 		function normalizeInput() {
 			normalizeLocale();
 			checkPatternMatch();
 			setValue(elements, lastValue);
 		}
-
+		/**
+		 * Applies constraints on input value, replaces comma with dot
+		 * @method applyConstraints
+		 */
 		function applyConstraints() {
 			var currentValue = input.value,
 				newValue;
@@ -300,11 +328,17 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			dom.getParent(input).insertBefore(block, input);
 			DX.$$('.' + CN_STEPPER_INPUT, block).appendChild(input);
 		}
-
+		/**
+		 * Increase value by 1
+		 * @method increase
+		 */
 		function increase() {
 			stepBy(1, elements);
 		}
-
+		/**
+		 * Decrease value by 1
+		 * @method decrease
+		 */
 		function decrease() {
 			stepBy(-1, elements);
 		}
@@ -318,7 +352,27 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	};
 })(DX, window, document);
 
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof NumericStepper
+ */
 NumericStepper.E_CHANGED = 'numericstepper:changed';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof NumericStepper
+ */
 NumericStepper.E_UPDATE_CONSTRAINTS = 'numericstepper:updateconstraints';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof NumericStepper
+ */
 NumericStepper.E_CORRECTED = 'numericstepper:corrected';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof NumericStepper
+ */
 NumericStepper.E_CHANGE_VALUE = 'numericstepper:changevalue';
