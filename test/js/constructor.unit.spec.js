@@ -2,8 +2,8 @@ describe('NumericStepper', function() {
 	var input,
 		S_BTN_DOWN = '.numericStepper--control-down',
 		S_BTN_UP = '.numericStepper--control-up';
-	
-	
+
+
 	beforeEach(function() {
 		document.body.innerHTML = '<input id="test" type="number">';
 	});
@@ -60,6 +60,68 @@ describe('NumericStepper', function() {
 
 				DX.Event.trigger(input, NumericStepper.E_CHANGE_VALUE);
 				expect(document.querySelector(S_BTN_DOWN).disabled).toBe(false);
+			});
+			it('should set value provided within NumericStepper.E_CHANGE_VALUE detail', function() {
+
+				input = document.getElementById('test');
+				input.value = '7.5';
+				input.type = 'number';
+				input.setAttribute('data-precision', '1');
+				input.setAttribute('step', '2.5');
+				input.setAttribute('max', '10');
+				input.setAttribute('min', '0');
+
+				var stepper = new NumericStepper(input),
+					params = {
+						'detail':{
+							'newVal': 3
+						}
+					};
+
+				DX.Event.trigger(input, NumericStepper.E_CHANGE_VALUE, params);
+				expect(input.value).toBe('3.0');
+			});
+			it('should save cursor position when setting value by NumericStepper.E_CHANGE_VALUE details', function() {
+
+				input = document.getElementById('test');
+				input.value = '7.5';
+				input.type = 'number';
+				input.setAttribute('data-precision', '1');
+				input.setAttribute('step', '2.5');
+				input.setAttribute('max', '10');
+				input.setAttribute('min', '0');
+
+				var stepper = new NumericStepper(input),
+					params = {
+						'detail':{
+							'newVal': 3
+						}
+					};
+				input.focus();
+				input.selectionStart = 1;
+				DX.Event.trigger(input, NumericStepper.E_CHANGE_VALUE, params);
+				expect(input.selectionStart).toBe(1);
+			});
+			it('should set cursor position according to NumericStepper.E_SET_CURSOR_POSITION details parameter', function() {
+
+				input = document.getElementById('test');
+				input.value = '7.5';
+				input.type = 'number';
+				input.setAttribute('data-precision', '1');
+				input.setAttribute('step', '2.5');
+				input.setAttribute('max', '10');
+				input.setAttribute('min', '0');
+
+				var stepper = new NumericStepper(input),
+					params = {
+						'detail':{
+							'position': 2
+						}
+					};
+				input.focus();
+				input.selectionStart = 1;
+				DX.Event.trigger(input, NumericStepper.E_SET_CURSOR_POSITION, params);
+				expect(input.selectionStart).toBe(2);
 			});
 		});
 	});

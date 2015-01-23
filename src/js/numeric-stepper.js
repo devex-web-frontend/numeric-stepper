@@ -113,7 +113,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	/**
 	 * Numericstepper value has changed
 	 *
-	 * @event numericstepper:changed
+	 * @event NumericStepper#numericstepper:changed
 	 */
 	function fireChangeEvent(input) {
 		event.trigger(input, NumericStepper.E_CHANGED);
@@ -121,9 +121,9 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	/**
 	 * Numericstepper value was corrected
 	 *
-	 * @event numericstepper:corrected
+	 * @event NumericStepper#numericstepper:corrected
 	 */
-	function notifyOfCorrection(input) {
+	function notifyOnCorrection(input) {
 		var notificationTimeOut;
 
 		input.classList.add(CN_CORRECTED);
@@ -145,6 +145,8 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	/**
 	 * @constructor NumericStepper
 	 * @param {HTMLInputElement} input
+	 * @fires NumericStepper#numericstepper:changed
+	 * @fires NumericStepper#numericstepper:corrected
 	 */
 	return function NumericStepper(input) {
 		var elements = {},
@@ -174,7 +176,30 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			input.addEventListener(E_INPUT, normalizeInput);
 			input.addEventListener(DX.Event.BLUR, applyConstraints);
 			input.addEventListener(NumericStepper.E_UPDATE_CONSTRAINTS, updateConstraints);
-			input.addEventListener(NumericStepper.E_CHANGE_VALUE, normalizeInput);
+			input.addEventListener(NumericStepper.E_CHANGE_VALUE, changeValueExternally);
+			input.addEventListener(NumericStepper.E_SET_CURSOR_POSITION, setCursorPosition);
+		}
+		/**
+		 * Sets cursor to specified position
+		 *
+		 * @event NumericStepper#numericstepper:setucrsor
+		 * @property {Number} event.detail.position
+		 */
+		function setCursorPosition(e) {
+			if (e.detail) {
+				restoreCursorPosition(input, e.detail.position);
+			}
+		}
+
+		function changeValueExternally(e) {
+			var selectionStart = input.selectionStart;
+			if (e.detail) {
+				input.value = e.detail.newVal;
+			}
+			checkPatternMatch();
+			applyConstraints();
+
+			restoreCursorPosition(input, selectionStart);
 		}
 		/**
 		 * Updates constraints according to element attributes
@@ -183,7 +208,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		/**
 		 * Numericstepper constraints attributes were changed
 		 *
-		 * @event numericstepper:updateconstraints
+		 * @event NumericStepper#numericstepper:updateconstraints
 		 */
 		function updateConstraints() {
 			var precisionValue = parseFloat(input.getAttribute('data-precision')),
@@ -202,7 +227,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		/**
 		 * Numericstepper value was changed outside
 		 *
-		 * @event numericstepper:changevalue
+		 * @event NumericStepper#numericstepper:changevalue
 		 */
 		function normalizeInput() {
 			normalizeLocale();
@@ -262,7 +287,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 					newValue = parseFloat(min).toFixed(input.precision);
 				}
 
-				notifyOfCorrection(input);
+				notifyOnCorrection(input);
 			}
 
 			if (!isNaN(newValue)) {
@@ -376,3 +401,9 @@ NumericStepper.E_CORRECTED = 'numericstepper:corrected';
  * @memberof NumericStepper
  */
 NumericStepper.E_CHANGE_VALUE = 'numericstepper:changevalue';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof NumericStepper
+ */
+NumericStepper.E_SET_CURSOR_POSITION = 'numericstepper:setcursor';
