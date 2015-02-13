@@ -270,7 +270,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 					currentValue = min;
 				}
 
-				currentValue = Math.round((currentValue - min) / input.step) * input.step + min;
+				currentValue = Math.floor((currentValue - min) / input.step) * input.step + min;
 				lastValue = (currentValue).toFixed(input.precision);
 			}
 

@@ -91,10 +91,10 @@ describe('NumericStepper #applyConstraints', function() {
 			testElement.setAttribute('round','');
 		});
 
-		it('should round value to step according to its min ', function() {
+		it('should round value down to step according to its min ', function() {
 			var stepper = new NumericStepper(testElement);
 
-			testElement.value = '6.5';
+			testElement.value = '8';
 			stepper.applyConstraints();
 
 			expect(testElement.value).toBe('7.0');
@@ -105,7 +105,7 @@ describe('NumericStepper #applyConstraints', function() {
 			expect(testElement.value).toBe('5.5');
 
 		});
-		it('should round value to step according to its min if value doesnt fit constraints', function() {
+		it('should round value down to step according to its min if value doesnt fit constraints', function() {
 			var stepper = new NumericStepper(testElement);
 
 			testElement.value = '10';
