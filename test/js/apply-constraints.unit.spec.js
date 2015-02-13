@@ -81,6 +81,35 @@ describe('NumericStepper #applyConstraints', function() {
 		expect(testElement.value).toBe('123.0');
 	});
 
+	it('should round value to step if input has round attribute', function() {
+		var stepper = new NumericStepper(testElement);
+		testElement.step = 1.5;
+		testElement.setAttribute('round','');
+		testElement.value = '7';
+		stepper.applyConstraints();
+
+		expect(testElement.value).toBe('7.5');
+	});
+
+	it('should round value to step if input has round attribute', function() {
+		var stepper = new NumericStepper(testElement);
+		testElement.step = 1.5;
+		testElement.setAttribute('round','');
+		testElement.value = '6.5';
+		stepper.applyConstraints();
+
+		expect(testElement.value).toBe('6.0');
+	});
+
+	it('should not round value to step if input doesnt have round attribute', function() {
+		var stepper = new NumericStepper(testElement);
+		testElement.step = 3;
+		testElement.value = '7';
+		stepper.applyConstraints();
+
+		expect(testElement.value).toBe('7.0');
+	});
+
 	it('should fire "NumericStepper:changed" event if value changed', function() {
 		var spy =  jasmine.createSpy('changed handler'),
 			stepper = new NumericStepper(testElement);

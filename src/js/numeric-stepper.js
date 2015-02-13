@@ -235,7 +235,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			setValue(elements, lastValue);
 		}
 		/**
-		 * Applies constraints on input value, replaces comma with dot
+		 * Applies constraints on input value, replaces comma with dot, rounds value to step
 		 * @method applyConstraints
 		 */
 		function applyConstraints() {
@@ -244,6 +244,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 			normalizeLocale();
 			checkRange();
+			roundToStep();
 			setValue(elements, lastValue);
 
 			newValue = input.value;
@@ -255,7 +256,12 @@ var NumericStepper = (function(DX, window, document, undefined) {
 				}, CHANGED_TIMEOUT);
 			}
 		}
-
+		function roundToStep() {
+			var currentValue = parseFloat(input.value);
+			if (input.hasAttribute('round')) {
+				lastValue = (Math.round(currentValue/input.step) * input.step).toFixed(input.precision);
+			}
+		}
 		function normalizeLocale() {
 			var selectionStart = input.selectionStart;
 
