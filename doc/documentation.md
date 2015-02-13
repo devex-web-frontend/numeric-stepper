@@ -175,7 +175,7 @@ Updates constraints according to element attributes
 
 <a name="applyConstraints"></a>
 #applyConstraints()
-Applies constraints on input value, replaces comma with dot
+Applies constraints on input value, replaces comma with dot, rounds value to step
 
 <a name="increase"></a>
 #increase()

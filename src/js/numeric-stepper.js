@@ -257,10 +257,23 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			}
 		}
 		function roundToStep() {
-			var currentValue = parseFloat(input.value);
+
 			if (input.hasAttribute('round')) {
-				lastValue = (Math.round(currentValue/input.step) * input.step).toFixed(input.precision);
+				var currentValue = parseFloat(lastValue),
+					max = parseFloat(input.max),
+					min = parseFloat(input.min);
+
+				if (currentValue >= max) {
+					currentValue = max;
+				}
+				if (currentValue <= min) {
+					currentValue = min;
+				}
+
+				currentValue = Math.round((currentValue - min) / input.step) * input.step + min;
+				lastValue = (currentValue).toFixed(input.precision);
 			}
+
 		}
 		function normalizeLocale() {
 			var selectionStart = input.selectionStart;

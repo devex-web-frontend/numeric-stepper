@@ -81,34 +81,56 @@ describe('NumericStepper #applyConstraints', function() {
 		expect(testElement.value).toBe('123.0');
 	});
 
-	it('should round value to step if input has round attribute', function() {
-		var stepper = new NumericStepper(testElement);
-		testElement.step = 1.5;
-		testElement.setAttribute('round','');
-		testElement.value = '7';
-		stepper.applyConstraints();
 
-		expect(testElement.value).toBe('7.5');
+	describe('if input has round attribute', function() {
+
+		beforeEach(function() {
+			testElement.step = 1.5;
+			testElement.setAttribute('min', '1');
+			testElement.setAttribute('max', '9');
+			testElement.setAttribute('round','');
+		});
+
+		it('should round value to step according to its min ', function() {
+			var stepper = new NumericStepper(testElement);
+
+			testElement.value = '6.5';
+			stepper.applyConstraints();
+
+			expect(testElement.value).toBe('7.0');
+
+			testElement.value = '6';
+			stepper.applyConstraints();
+
+			expect(testElement.value).toBe('5.5');
+
+		});
+		it('should round value to step according to its min if value doesnt fit constraints', function() {
+			var stepper = new NumericStepper(testElement);
+
+			testElement.value = '10';
+			stepper.applyConstraints();
+
+			expect(testElement.value).toBe('8.5');
+
+			testElement.value = '-6';
+			stepper.applyConstraints();
+
+			expect(testElement.value).toBe('1.0');
+		});
+
+
+		it('should not round value to step if input doesnt have round attribute', function() {
+			var stepper = new NumericStepper(testElement);
+			testElement.step = 3;
+			testElement.value = '7';
+			stepper.applyConstraints();
+
+			expect(testElement.value).toBe('7.0');
+		});
+
 	});
 
-	it('should round value to step if input has round attribute', function() {
-		var stepper = new NumericStepper(testElement);
-		testElement.step = 1.5;
-		testElement.setAttribute('round','');
-		testElement.value = '6.5';
-		stepper.applyConstraints();
-
-		expect(testElement.value).toBe('6.0');
-	});
-
-	it('should not round value to step if input doesnt have round attribute', function() {
-		var stepper = new NumericStepper(testElement);
-		testElement.step = 3;
-		testElement.value = '7';
-		stepper.applyConstraints();
-
-		expect(testElement.value).toBe('7.0');
-	});
 
 	it('should fire "NumericStepper:changed" event if value changed', function() {
 		var spy =  jasmine.createSpy('changed handler'),
