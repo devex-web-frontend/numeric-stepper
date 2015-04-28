@@ -84,7 +84,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	}
 
 	function isInRange(value, min, max) {
-		return (!isLess(value, min) && !isMore(value, max));
+		return (!(value === '') && !isLess(value, min) && !isMore(value, max));
 	}
 
 	function setValue(elements, value) {
