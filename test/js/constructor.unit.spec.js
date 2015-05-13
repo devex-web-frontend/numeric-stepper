@@ -5,7 +5,7 @@ describe('NumericStepper', function() {
 
 
 	beforeEach(function() {
-		document.body.innerHTML = '<input id="test" type="number">';
+		document.body.innerHTML = '<input id="test" type="number" min="2" data-precision="1">';
 	});
 	afterEach(function() {
 		document.body.innerHTML = '';
@@ -39,6 +39,13 @@ describe('NumericStepper', function() {
 				expect(NumericStepper.E_CHANGED).toBe('numericstepper:changed');
 				expect(NumericStepper.E_CORRECTED).toBe('numericstepper:corrected');
 				expect(NumericStepper.E_UPDATE_CONSTRAINTS).toBe('numericstepper:updateconstraints');
+			});
+		});
+		describe('blur', function() {
+			it('should set min value if the only input symbol is -', function() {
+				input.value = '-';
+				DX.Event.trigger(input, DX.Event.BLUR);
+				expect(input.value).toEqual('2.0');
 			});
 		});
 		describe('button status', function() {

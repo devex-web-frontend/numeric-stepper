@@ -174,7 +174,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 			input.addEventListener(DX.Event.KEY_DOWN, keyDownHandler);
 			input.addEventListener(E_INPUT, normalizeInput);
-			input.addEventListener(DX.Event.BLUR, applyConstraints);
+			input.addEventListener(DX.Event.BLUR, blurHandler);
 			input.addEventListener(NumericStepper.E_UPDATE_CONSTRAINTS, updateConstraints);
 			input.addEventListener(NumericStepper.E_CHANGE_VALUE, changeValueExternally);
 			input.addEventListener(NumericStepper.E_SET_CURSOR_POSITION, setCursorPosition);
@@ -189,6 +189,13 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			if (e.detail) {
 				restoreCursorPosition(input, e.detail.position);
 			}
+		}
+
+		function blurHandler() {
+			if (input.value === '-') {
+				input.value = input.min;
+			}
+			applyConstraints();
 		}
 
 		function changeValueExternally(e) {
