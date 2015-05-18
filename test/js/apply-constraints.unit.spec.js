@@ -49,7 +49,7 @@ describe('NumericStepper #applyConstraints', function() {
 		expect(testElement.value).toBe('7.7');
 	});
 
-	it('should restore empty value if provided value is minus sign', function() {
+	it('should restore empty value if provided value is not a number', function() {
 		testElement.value = '';
 
 		var stepper = new NumericStepper(testElement);
@@ -81,6 +81,15 @@ describe('NumericStepper #applyConstraints', function() {
 		expect(testElement.value).toBe('123.0');
 	});
 
+	it('should set min constraint as value if provided value is empty', function() {
+		var stepper = new NumericStepper(testElement);
+
+		testElement.value = '';
+		stepper.applyConstraints();
+
+		expect(testElement.value).toBe('-5.0');
+	});
+
 
 	describe('if input has round attribute', function() {
 
@@ -88,6 +97,7 @@ describe('NumericStepper #applyConstraints', function() {
 			testElement.step = 1.5;
 			testElement.setAttribute('min', '1');
 			testElement.setAttribute('max', '9');
+			testElement.setAttribute('round','');
 			testElement.setAttribute('round','');
 		});
 

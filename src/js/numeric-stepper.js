@@ -84,7 +84,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	}
 
 	function isInRange(value, min, max) {
-		return (!isLess(value, min) && !isMore(value, max));
+		return (!(value === '') && !isLess(value, min) && !isMore(value, max));
 	}
 
 	function setValue(elements, value) {
@@ -218,7 +218,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		 * @event NumericStepper#numericstepper:updateconstraints
 		 */
 		function updateConstraints() {
-			var precisionValue = parseFloat(input.getAttribute('data-precision')),
+			var precisionValue = parseFloat(git),
 				minValue = parseFloat(input.getAttribute('min')),
 				maxValue = parseFloat(input.getAttribute('max'));
 
