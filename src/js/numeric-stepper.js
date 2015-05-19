@@ -218,7 +218,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		 * @event NumericStepper#numericstepper:updateconstraints
 		 */
 		function updateConstraints() {
-			var precisionValue = parseFloat(git),
+			var precisionValue = parseFloat(input.getAttribute('data-precision')),
 				minValue = parseFloat(input.getAttribute('min')),
 				maxValue = parseFloat(input.getAttribute('max'));
 
