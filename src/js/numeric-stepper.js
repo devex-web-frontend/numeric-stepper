@@ -6,7 +6,7 @@
  * @requires DX.Event
  * @namespace
  */
-var NumericStepper = (function(DX, window, document, undefined) {
+var NumericStepper = (function(DX) {
 	'use strict';
 
 	var event = DX.Event,
@@ -35,7 +35,6 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		E_ANIMATION_PREFIX = (function() {
 			var cssProp,
 				eventPrefix = '',
-				testElement = document.createElement('div'),
 				vendorPrefixes = {
 					animation: 'animation',
 					'-moz-animation': 'animation',
@@ -43,10 +42,13 @@ var NumericStepper = (function(DX, window, document, undefined) {
 					'-ms-animation': 'MSAnimation'
 				};
 
-			for (cssProp in vendorPrefixes) {
-				if (Object.prototype.hasOwnProperty.call(vendorPrefixes, cssProp)) {
-					if (testElement.style[cssProp] !== undefined) {
-						eventPrefix = vendorPrefixes[cssProp];
+			if (typeof document !== 'undefined') {
+				var testElement = document.createElement('div');
+				for (cssProp in vendorPrefixes) {
+					if (Object.prototype.hasOwnProperty.call(vendorPrefixes, cssProp)) {
+						if (testElement.style[cssProp] !== undefined) {
+							eventPrefix = vendorPrefixes[cssProp];
+						}
 					}
 				}
 			}
@@ -89,7 +91,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 	function setValue(elements, value) {
 		var input = elements.input,
-				selectionStart = input.selectionStart;
+			selectionStart = input.selectionStart;
 
 		if (isNaN(value) && value !== '-') {
 			value = '';
@@ -100,16 +102,19 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		toggleButtonStates(elements);
 		fireChangeEvent(input);
 	}
+
 	function restoreCursorPosition(input, cursorPosition) {
 		if (document.activeElement === input) {
 			input.selectionStart = input.selectionEnd = cursorPosition;
 		}
 	}
+
 	function setUniqueValue(elements, value) {
 		if (elements.input.value !== value) {
 			setValue(elements, value);
 		}
 	}
+
 	/**
 	 * Numericstepper value has changed
 	 *
@@ -118,6 +123,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 	function fireChangeEvent(input) {
 		event.trigger(input, NumericStepper.E_CHANGED);
 	}
+
 	/**
 	 * Numericstepper value was corrected
 	 *
@@ -140,7 +146,6 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 		event.trigger(input, NumericStepper.E_CORRECTED);
 	}
-
 
 	/**
 	 * @constructor NumericStepper
@@ -179,6 +184,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			input.addEventListener(NumericStepper.E_CHANGE_VALUE, changeValueExternally);
 			input.addEventListener(NumericStepper.E_SET_CURSOR_POSITION, setCursorPosition);
 		}
+
 		/**
 		 * Sets cursor to specified position
 		 *
@@ -208,6 +214,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 
 			restoreCursorPosition(input, selectionStart);
 		}
+
 		/**
 		 * Updates constraints according to element attributes
 		 * @method updateConstraints
@@ -231,6 +238,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		function isDisabled() {
 			return input.disabled;
 		}
+
 		/**
 		 * Numericstepper value was changed outside
 		 *
@@ -241,6 +249,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			checkPatternMatch();
 			setValue(elements, lastValue);
 		}
+
 		/**
 		 * Applies constraints on input value, replaces comma with dot, rounds value to step
 		 * @method applyConstraints
@@ -263,6 +272,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 				}, CHANGED_TIMEOUT);
 			}
 		}
+
 		function roundToStep() {
 
 			if (input.hasAttribute('round')) {
@@ -282,6 +292,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			}
 
 		}
+
 		function normalizeLocale() {
 			var selectionStart = input.selectionStart;
 
@@ -302,7 +313,6 @@ var NumericStepper = (function(DX, window, document, undefined) {
 				max = input.max,
 				min = input.min,
 				newValue;
-
 
 			if (isInRange(currentValue, min, max)) {
 				newValue = parseFloat(currentValue).toFixed(input.precision);
@@ -379,6 +389,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 			dom.getParent(input).insertBefore(block, input);
 			DX.$$('.' + CN_STEPPER_INPUT, block).appendChild(input);
 		}
+
 		/**
 		 * Increase value by 1
 		 * @method increase
@@ -386,6 +397,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		function increase() {
 			stepBy(1, elements);
 		}
+
 		/**
 		 * Decrease value by 1
 		 * @method decrease
@@ -401,7 +413,7 @@ var NumericStepper = (function(DX, window, document, undefined) {
 		this.applyConstraints = applyConstraints;
 		this.updateConstraints = updateConstraints;
 	};
-})(DX, window, document);
+})(DX);
 
 /** @constant
  * @type {string}
